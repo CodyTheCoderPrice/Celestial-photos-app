@@ -2,6 +2,7 @@ package com.example.final_project.networking
 
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,7 +42,9 @@ class NotificationsService private constructor() : IService {
                 recyclerView.adapter = NotificationRecyclerAdapter(notifications)
                 recyclerView.addItemDecoration(dividerItemDecoration)
             },
-            Response.ErrorListener { Log.d("NETWORK", "Problem getting notifications request") })
+            Response.ErrorListener {
+                Toast.makeText(view.context, "There was a problem getting notifications, please try again later", Toast.LENGTH_LONG).show()
+            })
 
         queue.add(stringRequest)
     }
@@ -50,7 +53,6 @@ class NotificationsService private constructor() : IService {
         val startDate = "2014-05-01"
         val endDate = "2014-05-08"
 
-        val baseUrl: String = "https://api.nasa.gov/DONKI/notifications?startDate=START_DATE&endDate=END_DATE&type=all&api_key=DEMO_KEY"
         var url = baseUrl.replace("START_DATE", startDate)
         url = url.replace("END_DATE", endDate)
 
