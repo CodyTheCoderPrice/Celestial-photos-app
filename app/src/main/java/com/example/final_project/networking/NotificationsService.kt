@@ -1,6 +1,5 @@
 package com.example.final_project.networking
 
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -14,6 +13,7 @@ import com.example.final_project.R
 import com.example.final_project.model.Notification
 import com.example.final_project.ui.notifications.NotificationRecyclerAdapter
 import com.google.gson.Gson
+import java.util.*
 
 class NotificationsService private constructor() : IService {
 
@@ -50,8 +50,11 @@ class NotificationsService private constructor() : IService {
     }
 
     override fun setUrl(): String {
-        val startDate = "2014-05-01"
-        val endDate = "2014-05-08"
+        val calendar = Calendar.getInstance()
+        val endDate = "${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH)}-${calendar.get(Calendar.DAY_OF_MONTH)}"
+
+        calendar.add(Calendar.DATE, -7) // Get the date from a week ago
+        val startDate = "${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH)}-${calendar.get(Calendar.DAY_OF_MONTH)}"
 
         var url = baseUrl.replace("START_DATE", startDate)
         url = url.replace("END_DATE", endDate)
