@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso
 
 
 class APOD {
-    fun getAPOD(context: Context, textView: TextView, imageView: ImageView) {
+    fun getAPOD(context: Context, callback: (Boolean, ApodObject) -> Unit) {
         // Instantiate the RequestQueue.
         val queue = Volley.newRequestQueue(context)
         val url = "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY"
@@ -25,21 +25,9 @@ class APOD {
             Request.Method.GET, url,
             { response ->
                 val apodObject: ApodObject = gson.fromJson(response, ApodObject::class.java)
-                textView.text = apodObject.url
-
-//                if (apodObject.media_type == "image") {
-//                    Picasso.with(context).load(apodObject.url).into(imageView);
-//                } else if (apodObject.media_type == "video") {
-                
-                    startActivity(context, Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/")), null)
-
-                    //val intent: Intent = Intent(Intent.ACTION_VIEW)
-                    //intent.setDataAndType(Uri.parse("https://www.youtube.com/watch?v=DzrCEm1ZBRY"), "video/*")
-                    //startActivity(context, Intent.createChooser(intent, "Complete action using"), null)
-                //}
-
+                callback(true, apodObject)
             },
-            { textView.text = "Request didn't work" })
+            { callback(false, ApodObject("", "", "", "", "", "")) })
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest)
