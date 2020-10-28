@@ -11,5 +11,11 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_earth">Earth API</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Earth API Strings -->
+    <string name="earth_title">Earth API</string>
+    <string name="earth_lat">Latitude</string>
+    <string name="earth_long">Longitude</string>
+    <string name="earth_date">Date</string>
+    <string name="earth_today">Today</string>
+    <string name="earth_get_image">Get Image</string>
 </resources>
