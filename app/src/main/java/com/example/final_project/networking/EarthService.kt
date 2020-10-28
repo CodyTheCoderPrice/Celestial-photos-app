@@ -1,28 +1,22 @@
 package com.example.final_project.networking
 
 import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.view.View
-import android.view.ViewGroup
-import android.view.Window
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.Toast
-import androidx.navigation.findNavController
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.final_project.R
 import com.example.final_project.model.Earth
+import com.example.final_project.model.EarthResource
 import com.google.gson.Gson
-import java.lang.Exception
-import java.net.URI
+import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class EarthService: IService {
 
@@ -64,18 +58,10 @@ class EarthService: IService {
     }
 
     private fun openPopup(view: View, earth: Earth) {
-        val dialog = Dialog(view.context, android.R.style.Theme_Light)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setOnDismissListener {  }
-
-        val image = ImageView(view.context)
-        image.setImageURI(Uri.parse(earth.url))
-
-        dialog.addContentView(image, RelativeLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT))
-
+        val dialog = Dialog(view.context)
+        dialog.setContentView(R.layout.image_dialog)
+        val image = dialog.findViewById<ImageView>(R.id.image)
+        Picasso.with(view.context).load(earth.url).into(image)
         dialog.show()
     }
 
