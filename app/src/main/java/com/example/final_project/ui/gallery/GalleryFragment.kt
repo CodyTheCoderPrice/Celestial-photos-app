@@ -9,9 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.final_project.APOD
+import com.example.final_project.networking.APOD
 import com.example.final_project.R
 import com.squareup.picasso.Picasso
 
@@ -31,7 +30,8 @@ class GalleryFragment : Fragment() {
         val titleTextView: TextView = root.findViewById(R.id.apod_title)
         val photoImageView: ImageView = root.findViewById(R.id.apod_IV)
         context?.let {
-            APOD().getAPOD(it) { success, apodObject ->
+            APOD()
+                .getAPOD(it) { success, apodObject ->
                 if (success) {
                     titleTextView.text = apodObject.title
                     if (apodObject.media_type == "image") {

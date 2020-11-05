@@ -1,16 +1,12 @@
-package com.example.final_project
+package com.example.final_project.networking
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.final_project.model.ApodObject
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
+import java.util.*
 
 
 class APOD {
@@ -27,7 +23,17 @@ class APOD {
                 val apodObject: ApodObject = gson.fromJson(response, ApodObject::class.java)
                 callback(true, apodObject)
             },
-            { callback(false, ApodObject("", "", "", "", "", "")) })
+            { callback(false,
+                ApodObject(
+                    UUID.randomUUID(),
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                )
+            ) })
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest)
