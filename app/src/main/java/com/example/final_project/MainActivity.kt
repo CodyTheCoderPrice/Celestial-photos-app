@@ -13,10 +13,19 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.example.final_project.database.StreakRepository
+import com.example.final_project.model.Streak
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+    private val scope = CoroutineScope(Dispatchers.Main)
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var streakRepository: StreakRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +47,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_notifications, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        // Streak updates
+        scope.launch(Dispatchers.Default) {
+            streakRepository = StreakRepository(this@MainActivity)
+            updateDailyStreak()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -49,5 +64,25 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    fun updateDailyStreak() {
+        when (val streak = streakRepository.getRecentStreak()) {
+            null -> { // Create a new streak if none exists
+                streakRepository.addStreak(Streak(UUID.randomUUID(), Date(), 1))
+            }
+            else -> { // Update streak/create new one if not exists
+                val fmt = SimpleDateFormat("yyyyMMdd")
+                val nextDay = fmt.parse(fmt.format(streak.date)).time + 1000 * 60 * 60 * 24
+                val today = fmt.parse(fmt.format(Date())).time
+
+                if (nextDay == today) {
+                    streak.streak++
+                    streakRepository.updateStreak(streak)
+                } else if (nextDay - 1000 * 60 * 60 * 24 != today) {
+                    streakRepository.addStreak(Streak(UUID.randomUUID(), Date(), 1))
+                }
+            }
+        }
     }
 }
