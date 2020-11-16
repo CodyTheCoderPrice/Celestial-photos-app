@@ -19,4 +19,8 @@
     <string name="earth_date">Date</string>
     <string name="earth_today">Today</string>
     <string name="earth_get_image">Get Image</string>
+
+    <!-- Statistics Page Strings -->
+    <string name="stats_streak">Consecutive Day Streak</string>
+    <string name="stats_streak_default">1</string>
 </resources>

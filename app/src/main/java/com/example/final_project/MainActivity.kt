@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    fun updateDailyStreak() {
+    private fun updateDailyStreak() {
         when (val streak = streakRepository.getRecentStreak()) {
             null -> { // Create a new streak if none exists
                 streakRepository.addStreak(Streak(UUID.randomUUID(), Date(), 1))
