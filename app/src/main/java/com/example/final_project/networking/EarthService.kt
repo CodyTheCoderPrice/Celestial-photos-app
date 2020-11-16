@@ -8,9 +8,12 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.final_project.R
+import com.example.final_project.networking.helper.checkValidDate
+import com.example.final_project.networking.helper.checkValidLatLong
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,22 +34,30 @@ class EarthService: IService {
     }
 
     override fun getData(view: View, callback: suspend (view: View, response: String) -> Unit) {
-        getViewData(view)
-        val url = setUrl()
+        try {
+            getViewData(view)
+            val url = setUrl()
 
-        val queue = Volley.newRequestQueue(view.context)
-        val stringRequest = StringRequest(
-            Request.Method.GET, url,
-            Response.Listener { response ->
-                scope.launch(Dispatchers.Default) { callback(view, response) }
-            },
-            Response.ErrorListener {
-                scope.launch(Dispatchers.Main) {
-                    Toast.makeText(view.context, "There was a problem getting the EARTH API Image, please try again later", Toast.LENGTH_LONG).show()
-                }
-            })
+            val queue = Volley.newRequestQueue(view.context)
+            val stringRequest = StringRequest(
+                Request.Method.GET, url,
+                Response.Listener { response ->
+                    scope.launch(Dispatchers.Default) { callback(view, response) }
+                },
+                Response.ErrorListener {
+                    scope.launch(Dispatchers.Main) {
+                        Toast.makeText(
+                            view.context,
+                            "There was a problem getting the EARTH API Image, please try again later",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                })
 
-        queue.add(stringRequest)
+            queue.add(stringRequest)
+        } catch (e: Exception) {
+            Toast.makeText(view.context, e.message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     /**
@@ -80,32 +91,5 @@ class EarthService: IService {
         val cal = Calendar.getInstance()
         cal.time = sdf.parse(date)
         this.date = "${cal.get(Calendar.YEAR)}-${cal.get(Calendar.MONTH)+1}-${cal.get(Calendar.DATE)}"
-    }
-
-    /**
-     * Checks if date is valid
-     */
-    private fun checkValidDate(date: String) {
-        if (date.isNullOrEmpty()) {
-            throw Exception("Date must be filled in")
-        }
-    }
-
-    /**
-     * Checks if latitude and longitude are valid numbers
-     */
-    private fun checkValidLatLong(lat: String, long: String) {
-        if (lat.isNullOrEmpty() || long.isNullOrEmpty()) {
-            throw Exception("Latitude or Longitude must be filled in")
-        }
-
-        val lat = lat.toFloat()
-        val long = long.toFloat()
-        if (lat < -90 || lat > 90) {
-            throw Exception("Latitude is not valid")
-        }
-        if (long < -180 || long > 180) {
-            throw Exception("Longitude is not valid")
-        }
     }
 }
