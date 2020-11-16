@@ -7,7 +7,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_notifications">Notifications</string>
-    <string name="menu_gallery">Gallery</string>
+    <string name="menu_apod">Astronomy Picture of the Day</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_earth">Earth API</string>
     <string name="menu_stats">Usage Statistics</string>
