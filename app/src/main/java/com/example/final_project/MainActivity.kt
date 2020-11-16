@@ -31,13 +31,16 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        // Set up nav controller
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.nav_notifications, R.id.nav_apod, R.id.nav_slideshow, R.id.nav_earth, R.id.nav_stats), drawerLayout)
+
+        // This sets each fragment in the nav as a root component, which means it has access to the
+        // hamburger menu bar
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.nav_notifications, R.id.nav_apod, R.id.nav_slideshow, R.id.nav_earth, R.id.nav_stats),
+            drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
@@ -59,6 +62,9 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    /**
+     * On application startup, check and update the user's daily streak count
+     */
     private fun updateDailyStreak() {
         when (val streak = streakRepository.getRecentStreak()) {
             null -> { // Create a new streak if none exists
