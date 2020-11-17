@@ -1,4 +1,4 @@
-package com.example.final_project.ui.gallery
+package com.example.final_project.ui.apod
 
 import android.content.Intent
 import android.net.Uri
@@ -9,23 +9,18 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import com.example.final_project.networking.APOD
 import com.example.final_project.R
 import com.squareup.picasso.Picasso
 
-class GalleryFragment : Fragment() {
-
-    private lateinit var galleryViewModel: GalleryViewModel
+class ApodFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_gallery, container, false)
+        val root = inflater.inflate(R.layout.fragment_apod, container, false)
 
         val titleTextView: TextView = root.findViewById(R.id.apod_title)
         val photoImageView: ImageView = root.findViewById(R.id.apod_IV)

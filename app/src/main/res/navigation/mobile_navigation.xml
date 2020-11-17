@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.final_project.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_apod"
+        android:name="com.example.final_project.ui.apod.ApodFragment"
+        android:label="@string/menu_apod"
+        tools:layout="@layout/fragment_apod" />
 
     <fragment
         android:id="@+id/nav_slideshow"
@@ -28,4 +28,10 @@
         android:name="com.example.final_project.ui.earth.EarthFragment"
         android:label="Earth"
         tools:layout="@layout/fragment_earth"/>
+
+    <fragment
+        android:id="@+id/nav_stats"
+        android:name="com.example.final_project.ui.stats.StatsFragment"
+        android:label="Statistics"
+        tools:layout="@layout/fragment_stats" />
 </navigation>

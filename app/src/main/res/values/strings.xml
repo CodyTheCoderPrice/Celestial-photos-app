@@ -7,9 +7,10 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_notifications">Notifications</string>
-    <string name="menu_gallery">Gallery</string>
+    <string name="menu_apod">Astronomy Picture of the Day</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_earth">Earth API</string>
+    <string name="menu_stats">Usage Statistics</string>
 
     <!-- Earth API Strings -->
     <string name="earth_title">Earth API</string>
@@ -18,4 +19,8 @@
     <string name="earth_date">Date</string>
     <string name="earth_today">Today</string>
     <string name="earth_get_image">Get Image</string>
+
+    <!-- Statistics Page Strings -->
+    <string name="stats_streak">Consecutive Day Streak</string>
+    <string name="stats_streak_default">1</string>
 </resources>
