@@ -41,6 +41,7 @@ class NotificationsService private constructor() : IService {
                 }
             })
 
+        // TODO: Check if this is done on a background thread
         queue.add(stringRequest)
     }
 
