@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity(tableName = "apod")
-class ApodObject(
+class Apod(
     @PrimaryKey val id: UUID,
     @ColumnInfo(name = "date") val date: String,
     @ColumnInfo(name = "explanation") val explanation: String,
