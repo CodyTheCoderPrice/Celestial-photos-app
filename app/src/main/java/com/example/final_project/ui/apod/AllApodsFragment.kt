@@ -1,6 +1,7 @@
 package com.example.final_project.ui.apod
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.final_project.R
 import com.example.final_project.database.ApodRepository
 import com.example.final_project.model.ApodModel
-import com.example.final_project.model.Notification
-import com.example.final_project.ui.notifications.NotificationRecyclerAdapter
-import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 
 class AllApodsFragment : Fragment() {
 
@@ -26,39 +25,27 @@ class AllApodsFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_all_apods, container, false)
 
-        val apodModel: ApodModel = ApodModel(ApodRepository(root.context))
+        val recyclerView = root.findViewById<RecyclerView>(R.id.apodRV)
+        val layoutManager = LinearLayoutManager(root.context)
 
-        val recyclerView = view?.findViewById<RecyclerView>(R.id.apodRV)
-        val layoutManager = LinearLayoutManager(view?.context)
-        val dividerItemDecoration =
-            DividerItemDecoration(recyclerView?.context, layoutManager.orientation)
+        val scope = CoroutineScope(Dispatchers.Main)
+        scope.launch(Dispatchers.Default) {
+            val apodModel = ApodModel(ApodRepository(root.context))
 
-        // Set the adapter
-        if (recyclerView != null) {
-            recyclerView.layoutManager = layoutManager
-            recyclerView.adapter = ApodRecyclerAdapter(apodModel.getApods())
-            recyclerView.addItemDecoration(dividerItemDecoration)
+            // Set the adapter
+            if (recyclerView != null) {
+                Log.d("Here", "${apodModel.getApods().size}")
+
+                val dividerItemDecoration =
+                    DividerItemDecoration(recyclerView?.context, layoutManager.orientation)
+
+                recyclerView.layoutManager = layoutManager
+                recyclerView.adapter = ApodRecyclerAdapter(apodModel.getApods())
+                recyclerView.addItemDecoration(dividerItemDecoration)
+            }
         }
 
         return root
-    }
-
-    private suspend fun setRecyclerView(view: View, response: String) {
-        // Parse the response
-        val notifications = Gson().fromJson(response, Array<Notification>::class.java).toList()
-
-        withContext(Dispatchers.Main) {
-            // Get the recycler view
-            val recyclerView = view.findViewById<RecyclerView>(R.id.notificationRV)
-            val layoutManager = LinearLayoutManager(view.context)
-            val dividerItemDecoration =
-                DividerItemDecoration(recyclerView.context, layoutManager.orientation)
-
-            // Set the adapter
-            recyclerView.layoutManager = layoutManager
-            recyclerView.adapter = NotificationRecyclerAdapter(notifications)
-            recyclerView.addItemDecoration(dividerItemDecoration)
-        }
     }
 
     companion object {

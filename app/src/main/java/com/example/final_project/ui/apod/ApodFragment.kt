@@ -35,7 +35,7 @@ class ApodFragment : Fragment() {
         val viewFavoriteBtn: Button = root.findViewById(R.id.apod_view_favorite_btn)
         viewFavoriteBtn.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_view_tag, AllApodsFragment.newInstance())
+                .replace(R.id.nav_host_fragment, AllApodsFragment.newInstance())
                 .commit()
         }
         context?.let {
