@@ -6,9 +6,13 @@ import com.example.final_project.model.Apod
 import com.example.final_project.ui.apod.ApodFragment
 
 class ApodRepository(ctx: Context) {
-    private val apods: MutableList<Apod> = mutableListOf()
+    private var apods: MutableList<Apod> = mutableListOf()
     private val db: NasaDatabase = Room.databaseBuilder(ctx, NasaDatabase::class.java, "apods.db")
         .build()
+
+    init {
+        apods.addAll(db.apodDao().getApods())
+    }
 
     fun addApod(apod: Apod) {
         db.apodDao().addApod(apod)

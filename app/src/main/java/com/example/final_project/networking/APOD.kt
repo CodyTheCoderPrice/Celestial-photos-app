@@ -13,14 +13,15 @@ class APOD {
     fun getAPOD(context: Context, callback: (Boolean, Apod) -> Unit) {
         // Instantiate the RequestQueue.
         val queue = Volley.newRequestQueue(context)
-        val url = "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY"
+        val url = "https://api.nasa.gov/planetary/apod?api_key=16b6Uzl7bxuj373dlhhYFc9ForC30K7dEDnsY8lK"
 
         val gson = Gson()
 
         val stringRequest = StringRequest(
             Request.Method.GET, url,
             { response ->
-                val apod: Apod = gson.fromJson(response, Apod::class.java)
+                var apod: Apod = gson.fromJson(response, Apod::class.java)
+                apod.id = UUID.randomUUID()
                 callback(true, apod)
             },
             { callback(false,

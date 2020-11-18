@@ -13,7 +13,20 @@ class ApodModel(private val apodRepository: ApodRepository) {
         return apodRepository.getApod(idx)
     }
 
-    fun addApod(Apod: Apod) {
-        apodRepository.addApod(Apod)
+    fun addApod(apod: Apod) {
+        apodRepository.addApod(apod)
+    }
+
+    fun containsApod(apodCheck: Apod): Boolean {
+        val apods = getApods()
+        val iterator = apods.listIterator()
+
+        for (apod in iterator) {
+            if (apod.url == apodCheck.url) {
+                return true
+            }
+        }
+
+        return false
     }
 }

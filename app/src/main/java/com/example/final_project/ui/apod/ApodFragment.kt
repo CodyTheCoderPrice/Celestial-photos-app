@@ -9,12 +9,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.final_project.networking.APOD
 import com.example.final_project.R
 import com.example.final_project.database.ApodRepository
 import com.example.final_project.model.ApodModel
+import com.example.final_project.networking.APOD
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ApodFragment : Fragment() {
 
@@ -25,15 +29,14 @@ class ApodFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_apod, container, false)
 
-        val apodModel = ApodModel(ApodRepository(root.context))
-
         val titleTextView: TextView = root.findViewById(R.id.apod_title)
         val photoImageView: ImageView = root.findViewById(R.id.apod_IV)
         val favoriteBtn: Button = root.findViewById(R.id.apod_favorite_btn)
         val viewFavoriteBtn: Button = root.findViewById(R.id.apod_view_favorite_btn)
         viewFavoriteBtn.setOnClickListener {
-            val allApodsFragment = AllApodsFragment()
-            childFragmentManager.beginTransaction().replace(R.id.action_container,allApodsFragment).commit()
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container_view_tag, AllApodsFragment.newInstance())
+                .commit()
         }
         context?.let {
             APOD()
@@ -46,10 +49,23 @@ class ApodFragment : Fragment() {
                         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(apod.url)), null)
                     }
 
-                    favoriteBtn.visibility = Button.VISIBLE
                     favoriteBtn.setOnClickListener {
-                        apodModel.addApod(apod)
-                        favoriteBtn.visibility = Button.INVISIBLE
+                        val scope = CoroutineScope(Dispatchers.Main)
+                        scope.launch(Dispatchers.Default) {
+                            val apodModel = ApodModel(ApodRepository(root.context))
+
+                            if (!apodModel.containsApod(apod)) {
+                                apodModel.addApod(apod)
+                            } else {
+                                activity!!.runOnUiThread {
+                                    Toast.makeText(
+                                        activity,
+                                        "Apod already favorted",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
                     }
                 } else {
                     titleTextView.text = "Didn't receive request..."

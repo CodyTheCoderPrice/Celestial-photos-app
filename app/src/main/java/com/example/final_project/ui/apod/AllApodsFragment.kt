@@ -60,4 +60,8 @@ class AllApodsFragment : Fragment() {
             recyclerView.addItemDecoration(dividerItemDecoration)
         }
     }
+
+    companion object {
+        fun newInstance() = AllApodsFragment()
+    }
 }

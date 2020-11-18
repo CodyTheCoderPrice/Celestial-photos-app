@@ -34,7 +34,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:src="@android:drawable/menuitem_background"
-        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/apod_view_favorite_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -7,7 +7,7 @@ import java.util.*
 
 @Entity(tableName = "apod")
 class Apod(
-    @PrimaryKey val id: UUID,
+    @PrimaryKey var id: UUID,
     @ColumnInfo(name = "date") val date: String,
     @ColumnInfo(name = "explanation") val explanation: String,
     @ColumnInfo(name = "media_type") val media_type: String,
