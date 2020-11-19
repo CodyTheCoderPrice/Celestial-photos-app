@@ -17,6 +17,7 @@ class ApodModel(private val apodRepository: ApodRepository) {
         apodRepository.addApod(apod)
     }
 
+    // TODO: Add Unit test for this
     fun containsApod(apodCheck: Apod): Boolean {
         val apods = getApods()
         val iterator = apods.listIterator()

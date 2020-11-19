@@ -15,6 +15,7 @@ import com.example.final_project.model.ApodModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AllApodsFragment : Fragment() {
 
@@ -39,9 +40,11 @@ class AllApodsFragment : Fragment() {
                 val dividerItemDecoration =
                     DividerItemDecoration(recyclerView?.context, layoutManager.orientation)
 
-                recyclerView.layoutManager = layoutManager
-                recyclerView.adapter = ApodRecyclerAdapter(apodModel.getApods())
-                recyclerView.addItemDecoration(dividerItemDecoration)
+                withContext(Dispatchers.Main) {
+                    recyclerView.layoutManager = layoutManager
+                    recyclerView.adapter = ApodRecyclerAdapter(apodModel.getApods())
+                    recyclerView.addItemDecoration(dividerItemDecoration)
+                }
             }
         }
 

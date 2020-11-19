@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.final_project.R
 import com.example.final_project.database.ApodRepository
 import com.example.final_project.model.ApodModel
@@ -34,9 +35,7 @@ class ApodFragment : Fragment() {
         val favoriteBtn: Button = root.findViewById(R.id.apod_favorite_btn)
         val viewFavoriteBtn: Button = root.findViewById(R.id.apod_view_favorite_btn)
         viewFavoriteBtn.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment, AllApodsFragment.newInstance())
-                .commit()
+            root.findNavController().navigate(R.id.nav_all_apods)
         }
         context?.let {
             APOD()
