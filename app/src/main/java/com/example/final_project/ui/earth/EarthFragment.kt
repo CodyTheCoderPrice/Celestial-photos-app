@@ -6,10 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import com.example.final_project.R
 import com.example.final_project.model.Earth
 import com.example.final_project.networking.EarthService
@@ -28,6 +25,8 @@ class EarthFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val root = inflater.inflate(R.layout.fragment_earth, container, false)
+
+        root.findViewById<ProgressBar>(R.id.earthProgressBar).visibility = View.INVISIBLE
 
         root.findViewById<Button>(R.id.getEarthImageBtn)?.setOnClickListener { EarthService.instance.getData(root, ::openPopup) }
         root.findViewById<Button>(R.id.todayBtn)?.setOnClickListener {
@@ -51,10 +50,12 @@ class EarthFragment : Fragment() {
             val image = dialog.findViewById<ImageView>(R.id.image)
             Picasso.with(view.context).load(earth.url).into(image, object : Callback {
                 override fun onSuccess() {
+                    view.findViewById<ProgressBar>(R.id.earthProgressBar).visibility = View.INVISIBLE
                     dialog.show()
                 }
 
                 override fun onError() {
+                    view.findViewById<ProgressBar>(R.id.earthProgressBar).visibility = View.INVISIBLE
                     Toast.makeText(
                         view.context,
                         "There was a problem loading the image, please try again later",
