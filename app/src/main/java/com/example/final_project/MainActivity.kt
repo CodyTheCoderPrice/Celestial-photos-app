@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                     ComponentName(this@MainActivity, ApodNotificationService::class.java)
                 )
                 jobInfo.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                jobInfo.setMinimumLatency(15 * 1000)
+                jobInfo.setPeriodic(30 * 60 * 1000)
                 scheduler.schedule(jobInfo.build())
             }
         }

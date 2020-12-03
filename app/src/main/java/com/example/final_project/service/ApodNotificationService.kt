@@ -18,7 +18,6 @@ import com.example.final_project.R
 import com.example.final_project.database.TodaysApodRepository
 import com.example.final_project.model.TodaysApodModel
 import com.example.final_project.networking.apodApi
-import com.example.final_project.ui.apod.ApodFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
