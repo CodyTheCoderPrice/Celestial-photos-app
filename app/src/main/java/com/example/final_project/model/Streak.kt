@@ -8,6 +8,6 @@ import java.util.*
 @Entity(tableName = "streak")
 data class Streak(
     @PrimaryKey val id: UUID,
-    @ColumnInfo(name = "date") val date: Date,
+    @ColumnInfo(name = "date") var date: Date,
     @ColumnInfo(name = "streak") var streak: Int
 )
