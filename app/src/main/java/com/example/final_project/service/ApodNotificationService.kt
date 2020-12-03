@@ -12,6 +12,9 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.navigation.NavDeepLinkBuilder
+import com.example.final_project.MainActivity
+import com.example.final_project.R
 import com.example.final_project.database.TodaysApodRepository
 import com.example.final_project.model.TodaysApodModel
 import com.example.final_project.networking.apodApi
@@ -80,8 +83,11 @@ class ApodNotificationService() : JobService() {
     }
 
     private fun createNotification(): Notification {
-        val intent = Intent(this, ApodFragment::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntent = NavDeepLinkBuilder(this)
+            .setComponentName(MainActivity::class.java)
+            .setGraph(R.navigation.mobile_navigation)
+            .setDestination(R.id.nav_apod)
+            .createPendingIntent()
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentText("Click to view today's apod!")
             .setContentTitle("Astronomy Picture of the Day").setSmallIcon(android.R.drawable.ic_dialog_info)
