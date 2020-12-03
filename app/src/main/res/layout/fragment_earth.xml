@@ -43,7 +43,8 @@
         android:ems="10"
         android:inputType="numberSigned|numberDecimal"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        android:autofillHints="0.0" />
 
     <TextView
         android:id="@+id/textView4"
@@ -62,7 +63,8 @@
         android:ems="10"
         android:inputType="numberSigned|numberDecimal"
         app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        android:autofillHints="0.0" />
 
     <TextView
         android:id="@+id/textView5"
@@ -81,7 +83,8 @@
         android:ems="10"
         android:inputType="date"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        android:autofillHints="10/11/2020" />
 
     <Button
         android:id="@+id/todayBtn"

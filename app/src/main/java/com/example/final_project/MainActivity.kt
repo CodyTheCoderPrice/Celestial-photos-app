@@ -64,7 +64,6 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * On application startup, check and update the user's daily streak count
-     * TODO: App adds to streak every time you open app
      */
     private fun updateDailyStreak() {
         when (val streak = streakRepository.getRecentStreak()) {
