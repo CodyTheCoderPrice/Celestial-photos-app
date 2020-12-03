@@ -27,6 +27,16 @@ class EarthUnitTests {
         checkValidDate("")
     }
 
+    @Test(expected = Exception::class)
+    fun testInvalidFormatDate1() {
+        checkValidDate("10-11-2020")
+    }
+
+    @Test(expected = Exception::class)
+    fun testInvalidFormatDate2() {
+        checkValidDate("10/20/2020")
+    }
+
     @Test
     fun testSetUrl() {
         assertEquals(EarthService.instance.setUrl(), "https://api.nasa.gov/planetary/earth/assets?lat=0.0&lon=0.0&date=2020-10-31&api_key=DEMO_KEY")

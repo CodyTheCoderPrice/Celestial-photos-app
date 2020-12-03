@@ -59,6 +59,7 @@ class EarthService: IService {
 
             queue.add(stringRequest)
         } catch (e: Exception) {
+            view.findViewById<ProgressBar>(R.id.earthProgressBar).visibility = View.INVISIBLE
             Toast.makeText(view.context, e.message, Toast.LENGTH_SHORT).show()
         }
     }
