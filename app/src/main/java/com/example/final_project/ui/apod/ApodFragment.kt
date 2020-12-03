@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
@@ -23,6 +24,7 @@ import com.example.final_project.model.FavoriteApodModel
 import com.example.final_project.model.TodaysApod
 import com.example.final_project.model.TodaysApodModel
 import com.example.final_project.networking.apodApi
+import com.example.final_project.service.ApodNotificationService
 import com.example.final_project.service.MessageQueue
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
@@ -61,20 +63,41 @@ class ApodFragment : Fragment() {
                         if (todaysApod != null && haveTodaysApod) {
                             setApodView(root, todaysApod!!, haveTodaysApod)
                         } else {
-                            titleTextView.text = "Didn't receive request..."
+                            withContext(Dispatchers.IO) {
+                                apodApi()
+                                    .getAPOD(it) { success, apod ->
+                                        if (success) {
+                                            Log.d(
+                                                "Here",
+                                                "apodFragment, didn't have todaysApod, so fetched it " + apod.toString()
+                                            )
 
-                            MessageQueue.Channel.observe(viewLifecycleOwner,
-                                Observer<TodaysApod> { apod ->
-                                    Log.d("Here", "apodFragmentMessageQueue $apod")
+                                            setApodView(root, apod!!, true)
 
-                                    scope.launch(Dispatchers.Default) {
-                                        withContext(Dispatchers.Main) {
-                                            if (apod != null) {
-                                                setApodView(root, apod!!, haveTodaysApod)
+                                            scope.launch(Dispatchers.Default) {
+                                                withContext(Dispatchers.IO) {
+                                                    todaysApodModel.setTodaysApod(apod)
+                                                }
                                             }
+
+                                        } else {
+                                            titleTextView.text = "Didn't receive request..."
+
+                                            MessageQueue.Channel.observe(viewLifecycleOwner,
+                                                Observer<TodaysApod> { apod ->
+                                                    Log.d("Here", "apodFragmentMessageQueue $apod")
+
+                                                    scope.launch(Dispatchers.Default) {
+                                                        withContext(Dispatchers.Main) {
+                                                            if (apod != null) {
+                                                                setApodView(root, apod!!, true)
+                                                            }
+                                                        }
+                                                    }
+                                                })
                                         }
                                     }
-                                })
+                            }
                         }
                     }
                 }
@@ -83,7 +106,7 @@ class ApodFragment : Fragment() {
         return root
     }
 
-    private fun setApodView(view : View, todaysApod: TodaysApod, haveTodaysApod: Boolean) {
+    private fun setApodView(view: View, todaysApod: TodaysApod, haveTodaysApod: Boolean) {
         val titleTextView: TextView = view.findViewById(R.id.apod_title)
         val photoImageView: ImageView = view.findViewById(R.id.apod_IV)
         val favoriteBtn: Button = view.findViewById(R.id.apod_favorite_btn)
