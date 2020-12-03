@@ -1,6 +1,11 @@
 package com.example.final_project
 
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -11,11 +16,19 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.Observer
 import com.example.final_project.database.StreakRepository
+import com.example.final_project.database.TodaysApodRepository
 import com.example.final_project.model.Streak
+import com.example.final_project.model.TodaysApod
+import com.example.final_project.model.TodaysApodModel
+import com.example.final_project.service.ApodNotificationService
+import com.example.final_project.service.MessageQueue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,8 +52,15 @@ class MainActivity : AppCompatActivity() {
         // This sets each fragment in the nav as a root component, which means it has access to the
         // hamburger menu bar
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_notifications, R.id.nav_apod, R.id.nav_slideshow, R.id.nav_earth, R.id.nav_stats),
-            drawerLayout)
+            setOf(
+                R.id.nav_notifications,
+                R.id.nav_apod,
+                R.id.nav_slideshow,
+                R.id.nav_earth,
+                R.id.nav_stats
+            ),
+            drawerLayout
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
@@ -49,6 +69,33 @@ class MainActivity : AppCompatActivity() {
             streakRepository = StreakRepository(this@MainActivity)
             updateDailyStreak()
         }
+
+        // Apod Notification
+        scope.launch(Dispatchers.Default) {
+            withContext(Dispatchers.Main) {
+                val scheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+                val jobInfo = JobInfo.Builder(
+                    JOB_ID,
+                    ComponentName(this@MainActivity, ApodNotificationService::class.java)
+                )
+                jobInfo.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                jobInfo.setMinimumLatency(15 * 1000)
+                scheduler.schedule(jobInfo.build())
+            }
+        }
+
+        MessageQueue.Channel.observe(this@MainActivity,
+            Observer<TodaysApod> { apod ->
+                Log.d("Here", "mainActivityMessageQueue $apod")
+
+                scope.launch(Dispatchers.Default) {
+                    withContext(Dispatchers.IO) {
+                        val todaysApodModel = TodaysApodModel(TodaysApodRepository(this@MainActivity))
+                        todaysApodModel.setTodaysApod(apod)
+                    }
+                }
+            })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -83,5 +130,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    companion object {
+        const val JOB_ID = 1
     }
 }

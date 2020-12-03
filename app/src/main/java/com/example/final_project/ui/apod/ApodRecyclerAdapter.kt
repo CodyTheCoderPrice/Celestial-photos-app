@@ -9,9 +9,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.final_project.R
-import com.example.final_project.model.Apod
+import com.example.final_project.model.FavoriteApod
 
-class ApodRecyclerAdapter(val apods: List<Apod>) : RecyclerView.Adapter<ApodRecyclerAdapter.ApodHolder>() {
+class ApodRecyclerAdapter(val favoriteApods: List<FavoriteApod>) : RecyclerView.Adapter<ApodRecyclerAdapter.ApodHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -21,14 +21,14 @@ class ApodRecyclerAdapter(val apods: List<Apod>) : RecyclerView.Adapter<ApodRecy
     }
 
     override fun getItemCount(): Int {
-        return apods.size
+        return favoriteApods.size
     }
 
     override fun onBindViewHolder(
         holder: ApodHolder,
         position: Int
     ) {
-        val apod = apods[position]
+        val apod = favoriteApods[position]
         holder.title.text = apod.title
         holder.url = apod.url
     }

@@ -5,8 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
 
-@Entity(tableName = "apod")
-class Apod(
+@Entity(tableName = "todaysApod")
+class TodaysApod(
     @PrimaryKey var id: UUID,
     @ColumnInfo(name = "date") val date: String,
     @ColumnInfo(name = "explanation") val explanation: String,

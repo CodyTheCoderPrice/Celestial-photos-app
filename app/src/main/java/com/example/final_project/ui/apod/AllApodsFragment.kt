@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.final_project.R
-import com.example.final_project.database.ApodRepository
-import com.example.final_project.model.ApodModel
+import com.example.final_project.database.FavoriteApodRepository
+import com.example.final_project.model.FavoriteApodModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,18 +31,18 @@ class AllApodsFragment : Fragment() {
 
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch(Dispatchers.Default) {
-            val apodModel = ApodModel(ApodRepository(root.context))
+            val favoriteApodModel = FavoriteApodModel(FavoriteApodRepository(root.context))
 
             // Set the adapter
             if (recyclerView != null) {
-                Log.d("Here", "${apodModel.getApods().size}")
+                Log.d("Here", "${favoriteApodModel.getFavoriteApods().size}")
 
                 val dividerItemDecoration =
                     DividerItemDecoration(recyclerView?.context, layoutManager.orientation)
 
                 withContext(Dispatchers.Main) {
                     recyclerView.layoutManager = layoutManager
-                    recyclerView.adapter = ApodRecyclerAdapter(apodModel.getApods())
+                    recyclerView.adapter = ApodRecyclerAdapter(favoriteApodModel.getFavoriteApods())
                     recyclerView.addItemDecoration(dividerItemDecoration)
                 }
             }
