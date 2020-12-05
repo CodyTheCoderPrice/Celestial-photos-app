@@ -79,7 +79,6 @@ class MainActivity : AppCompatActivity() {
                     ComponentName(this@MainActivity, ApodNotificationService::class.java)
                 )
                 jobInfo.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                jobInfo.setPeriodic(60 * 60 * 1000)
                 scheduler.schedule(jobInfo.build())
             }
         }
