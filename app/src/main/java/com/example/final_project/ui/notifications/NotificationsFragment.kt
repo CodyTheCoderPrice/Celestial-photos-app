@@ -1,9 +1,11 @@
 package com.example.final_project.ui.notifications
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,6 +40,12 @@ class NotificationsFragment : Fragment() {
         val notifications = Gson().fromJson(response, Array<Notification>::class.java).toList()
 
         withContext(Dispatchers.Main) {
+            // Get optional web view to show in landscape
+            var webView: WebView? = null
+            if (view.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                webView = view.findViewById(R.id.notifications_web_view)
+            }
+
             // Get the recycler view
             val recyclerView = view.findViewById<RecyclerView>(R.id.notificationRV)
             val layoutManager = LinearLayoutManager(view.context)
@@ -46,7 +54,7 @@ class NotificationsFragment : Fragment() {
 
             // Set the adapter
             recyclerView.layoutManager = layoutManager
-            recyclerView.adapter = NotificationRecyclerAdapter(notifications)
+            recyclerView.adapter = NotificationRecyclerAdapter(notifications, webView)
             recyclerView.addItemDecoration(dividerItemDecoration)
         }
     }

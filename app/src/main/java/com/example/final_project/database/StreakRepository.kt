@@ -29,6 +29,9 @@ class StreakRepository(ctx: Context) {
         return streaks
     }
 
+    /**
+     * TODO: Test this
+     */
     fun getRecentStreak(): Streak? {
         var recent: Streak? = null
 
@@ -43,17 +46,6 @@ class StreakRepository(ctx: Context) {
         return recent
     }
 
-    /**
-     * Returns true if date 1 is before date 2, false otherwise
-     */
-    fun compareDates(date1: Date, date2: Date): Boolean {
-        // Used to ignore seconds/hours/minutes
-        val fmt = SimpleDateFormat("yyyyMMdd")
-        val d1 = fmt.format(date1)
-        val d2 = fmt.format(date2)
-        return fmt.parse(d1).before(fmt.parse(d2))
-    }
-
     fun setStreaks(streaks: List<Streak>) {
         this.streaks.clear()
         this.streaks.addAll(streaks)
@@ -62,4 +54,15 @@ class StreakRepository(ctx: Context) {
     private fun clear() {
         setStreaks(db.streakDao().getStreak())
     }
+}
+
+/**
+ * Returns true if date 1 is before date 2, false otherwise
+ */
+fun compareDates(date1: Date, date2: Date): Boolean {
+    // Used to ignore seconds/hours/minutes
+    val fmt = SimpleDateFormat("yyyyMMdd")
+    val d1 = fmt.format(date1)
+    val d2 = fmt.format(date2)
+    return fmt.parse(d1).before(fmt.parse(d2))
 }

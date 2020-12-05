@@ -2,6 +2,7 @@ package com.example.final_project.networking
 
 import android.view.View
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
@@ -35,6 +36,7 @@ class EarthService: IService {
 
     override fun getData(view: View, callback: suspend (view: View, response: String) -> Unit) {
         try {
+            view.findViewById<ProgressBar>(R.id.earthProgressBar).visibility = View.VISIBLE
             getViewData(view)
             val url = setUrl()
 
@@ -46,6 +48,7 @@ class EarthService: IService {
                 },
                 Response.ErrorListener {
                     scope.launch(Dispatchers.Main) {
+                        view.findViewById<ProgressBar>(R.id.earthProgressBar).visibility = View.INVISIBLE
                         Toast.makeText(
                             view.context,
                             "There was a problem getting the EARTH API Image, please try again later",
@@ -56,6 +59,7 @@ class EarthService: IService {
 
             queue.add(stringRequest)
         } catch (e: Exception) {
+            view.findViewById<ProgressBar>(R.id.earthProgressBar).visibility = View.INVISIBLE
             Toast.makeText(view.context, e.message, Toast.LENGTH_SHORT).show()
         }
     }

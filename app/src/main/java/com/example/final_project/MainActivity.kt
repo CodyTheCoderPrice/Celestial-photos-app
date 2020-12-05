@@ -122,6 +122,7 @@ class MainActivity : AppCompatActivity() {
 
                 if (nextDay == today) {
                     streak.streak++
+                    streak.date = Date()
                     streakRepository.updateStreak(streak)
                 } else if (nextDay - 1000 * 60 * 60 * 24 != today) {
                     streakRepository.addStreak(Streak(UUID.randomUUID(), Date(), 1))
