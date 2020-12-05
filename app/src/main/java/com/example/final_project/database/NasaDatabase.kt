@@ -1,7 +1,9 @@
 package com.example.final_project.database
 
 import androidx.room.*
-import com.example.final_project.model.ApodObject
+import androidx.room.Dao
+import com.example.final_project.model.FavoriteApod
+import com.example.final_project.model.TodaysApod
 import com.example.final_project.model.Streak
 import java.util.*
 
@@ -18,12 +20,24 @@ interface StreakDao {
 }
 
 @Dao
-interface ApodDao {
+interface FavoriteApodDao {
     @Insert
-    fun addApodObject(apod: ApodObject)
+    fun addFavoriteApod(favoriteApod: FavoriteApod)
 
-    @Query("select * from apod")
-    fun getApods(): List<ApodObject>
+    @Query("select * from favoriteApod")
+    fun getFavoriteApods(): List<FavoriteApod>
+}
+
+@Dao
+interface TodaysApodDao {
+    @Insert
+    fun addTodaysApod(todaysApod: TodaysApod)
+
+    @Update
+    fun updateTodaysApod(todaysApod: TodaysApod)
+
+    @Query("select * from todaysApod LIMIT 1")
+    fun getTodaysApod(): TodaysApod
 }
 
 class DateConverter {
@@ -50,9 +64,10 @@ class UUIDConverter {
     }
 }
 
-@Database(entities = arrayOf(Streak::class, ApodObject::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(Streak::class, FavoriteApod::class, TodaysApod::class), version = 1, exportSchema = false)
 @TypeConverters(UUIDConverter::class, DateConverter::class)
 abstract class NasaDatabase : RoomDatabase() {
     abstract fun streakDao(): StreakDao
-    abstract fun apodDao(): ApodDao
+    abstract fun favoriteApodDao(): FavoriteApodDao
+    abstract fun todaysApodDao(): TodaysApodDao
 }
