@@ -23,4 +23,8 @@
     <!-- Statistics Page Strings -->
     <string name="stats_streak">Consecutive Day Streak</string>
     <string name="stats_streak_default">1</string>
+
+    <!-- Apod API String -->
+    <string name="apod_favorite_btn">Favorite</string>
+    <string name="apod_view_favorite_btn">View Favorite Apods</string>
 </resources>
