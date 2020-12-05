@@ -30,7 +30,6 @@ class ApodNotificationService() : JobService() {
     }
 
     override fun onStartJob(p0: JobParameters?): Boolean {
-        Log.d("Here", "Job started")
 
         val serviceContext = this;
 
@@ -46,7 +45,6 @@ class ApodNotificationService() : JobService() {
                         apodApi()
                             .getAPOD(it) { success, apod ->
                                 if (success) {
-                                    Log.d("Here", "apodNotificationService " + apod.toString())
                                     MessageQueue.Channel.postValue(apod)
                                     val notif = createNotification()
                                     NotificationManagerCompat.from(this@ApodNotificationService).notify(NOTIF_ID, notif)

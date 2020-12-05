@@ -35,7 +35,6 @@ class AllApodsFragment : Fragment() {
 
             // Set the adapter
             if (recyclerView != null) {
-                Log.d("Here", "${favoriteApodModel.getFavoriteApods().size}")
 
                 val dividerItemDecoration =
                     DividerItemDecoration(recyclerView?.context, layoutManager.orientation)

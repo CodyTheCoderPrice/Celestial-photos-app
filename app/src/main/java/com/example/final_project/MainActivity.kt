@@ -85,7 +85,6 @@ class MainActivity : AppCompatActivity() {
 
         MessageQueue.Channel.observe(this@MainActivity,
             Observer<TodaysApod> { apod ->
-                Log.d("Here", "mainActivityMessageQueue $apod")
 
                 scope.launch(Dispatchers.Default) {
                     withContext(Dispatchers.IO) {

@@ -57,8 +57,6 @@ class ApodFragment : Fragment() {
                     todaysApod = todaysApodModel.getTodaysApod()
                     haveTodaysApod = todaysApodModel.haveTodaysApod()
 
-                    Log.d("Here", "apodFragment " + todaysApod.toString())
-
                     withContext(Dispatchers.Main) {
                         if (todaysApod != null && haveTodaysApod) {
                             setApodView(root, todaysApod!!, haveTodaysApod)
@@ -85,7 +83,6 @@ class ApodFragment : Fragment() {
 
                                             MessageQueue.Channel.observe(viewLifecycleOwner,
                                                 Observer<TodaysApod> { apod ->
-                                                    Log.d("Here", "apodFragmentMessageQueue $apod")
 
                                                     scope.launch(Dispatchers.Default) {
                                                         withContext(Dispatchers.Main) {
