@@ -14,7 +14,7 @@ import java.util.*
 class NotificationsService private constructor() : IService {
 
     private val scope = CoroutineScope(Dispatchers.Main)
-    private val baseUrl: String = "https://api.nasa.gov/DONKI/notifications?startDate=START_DATE&endDate=END_DATE&type=all&api_key=DEMO_KEY"
+    private val baseUrl: String = "https://api.nasa.gov/DONKI/notifications?startDate=START_DATE&endDate=END_DATE&type=all&api_key=16b6Uzl7bxuj373dlhhYFc9ForC30K7dEDnsY8lK"
 
     // Singleton pattern
     private object HOLDER { val INSTANCE = NotificationsService() }
