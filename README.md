@@ -13,7 +13,6 @@ Below is a list of the requirements we completed for the project throughout the 
 5. As a user, I would like to be able to see how many days in a row I’ve used the app (SQLite) - Emily Vogel
 6. As a user, I would like to be able to see astronomy notifications on app startup (DONKI API) - Emily Vogel
 7. As a user, I would like to be able to see a current photo of the Earth (EPIC API)\* - Eniola Akinola
-8. As a user, I would like to be able to search for videos and images (NASA Image and Video Library API) - Eniola Akinola
 
 \* For some reason the git history is completely different for story #7 and has not been merged into master.  You can see this functionality on the [epic branch](https://bitbucket.org/evogel1999/celestial-photos-app/src/epic/).
 
@@ -23,6 +22,7 @@ Below is a list of the requirements that we were not able to get to during the s
 
 1. As a user, I would like to see a statistic on how many notifications I’ve received (SQLite)
 2. As a user, I would like to see statistics on the total number of photos and videos I view (SQLite)
+3. As a user, I would like to be able to search for videos and images (NASA Image and Video Library API)
 
 ## Presentation
 
@@ -51,7 +51,9 @@ Anything relating to networks and API calls are done here.  They generally follo
 Please note that the API Key property in the requests is needed to increase the limit we can access the API.  If you use the DEMO_KEY, you have the following API call rate limit:
 
 >In documentation examples, the special DEMO_KEY api key is used. This API key can be used for initially exploring APIs prior to signing up, but it has much lower rate limits, so you’re encouraged to signup for your own API key if you plan to use the API (signup is quick and easy). The rate limits for the DEMO_KEY are:
+>
 >* Hourly Limit: 30 requests per IP address per hour
+>
 >* Daily Limit: 50 requests per IP address per day
 
 The API key present (not the DEMO_KEY value) increases the rate limit to 1,000 requests per hour.  More about this and the APIs used can be found on the [NASA APIs](https://api.nasa.gov/) website.
