@@ -31,8 +31,14 @@ class ModelUnitTest {
     }
 
     @Test
-    fun testApod() {
-        val apod = ApodObject(UUID.randomUUID(), Date().toString(), "a", "b", "c", "d", "e")
+    fun testTodaysApod() {
+        val apod = TodaysApod(1, UUID.randomUUID(), Date().toString(), "a", "b", "c", "d", "e")
+        assertEquals("a", apod.explanation)
+    }
+
+    @Test
+    fun testFavoriteApod() {
+        val apod = FavoriteApod(UUID.randomUUID(), Date().toString(), "a", "b", "c", "d", "e")
         assertEquals("a", apod.explanation)
     }
 

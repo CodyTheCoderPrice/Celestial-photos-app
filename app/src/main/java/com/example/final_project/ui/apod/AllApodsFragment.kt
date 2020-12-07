@@ -1,10 +1,12 @@
 package com.example.final_project.ui.apod
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +33,12 @@ class AllApodsFragment : Fragment() {
 
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch(Dispatchers.Default) {
+            var webView: WebView? = null
+            if (root.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                Log.d("Here", "oriented")
+                webView = root.findViewById(R.id.apod_web_view)
+            }
+
             val favoriteApodModel = FavoriteApodModel(FavoriteApodRepository(root.context))
 
             // Set the adapter
@@ -41,7 +49,7 @@ class AllApodsFragment : Fragment() {
 
                 withContext(Dispatchers.Main) {
                     recyclerView.layoutManager = layoutManager
-                    recyclerView.adapter = ApodRecyclerAdapter(favoriteApodModel.getFavoriteApods())
+                    recyclerView.adapter = ApodRecyclerAdapter(favoriteApodModel.getFavoriteApods(), webView)
                     recyclerView.addItemDecoration(dividerItemDecoration)
                 }
             }
