@@ -22,7 +22,7 @@ import java.util.*
 class EarthService: IService {
 
     private val scope = CoroutineScope(Dispatchers.Main)
-    private val baseURL = "https://api.nasa.gov/planetary/earth/assets?lat=LAT_VAL&lon=LONG_VAL&date=DATE_VAL&api_key=DEMO_KEY"
+    private val baseURL = "https://api.nasa.gov/planetary/earth/assets?lat=LAT_VAL&lon=LONG_VAL&date=DATE_VAL&api_key=16b6Uzl7bxuj373dlhhYFc9ForC30K7dEDnsY8lK"
     private var lat = "0.0"
     private var long = "0.0"
     private var date = "2020-10-31"
