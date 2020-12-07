@@ -65,11 +65,6 @@ class ApodFragment : Fragment() {
                                 apodApi()
                                     .getAPOD(it) { success, apod ->
                                         if (success) {
-                                            Log.d(
-                                                "Here",
-                                                "apodFragment, didn't have todaysApod, so fetched it " + apod.toString()
-                                            )
-
                                             setApodView(root, apod!!, true)
 
                                             scope.launch(Dispatchers.Default) {

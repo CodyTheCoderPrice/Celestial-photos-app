@@ -20,12 +20,14 @@ class apodApi {
         val stringRequest = StringRequest(
             Request.Method.GET, url,
             { response ->
-                var favoriteApod: TodaysApod = gson.fromJson(response, TodaysApod::class.java)
-                favoriteApod.id = UUID.randomUUID()
-                callback(true, favoriteApod)
+                var todaysApod: TodaysApod = gson.fromJson(response, TodaysApod::class.java)
+                todaysApod.primaryKey = 1
+                todaysApod.id = UUID.randomUUID()
+                callback(true, todaysApod)
             },
             { callback(false,
                 TodaysApod(
+                    1,
                     UUID.randomUUID(),
                     "",
                     "",
